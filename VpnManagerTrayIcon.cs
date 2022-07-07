@@ -6,8 +6,8 @@ public class VpnManagerTrayIcon : ApplicationContext
 {
     private static NotifyIcon trayIcon;
 
-    private static Icon onIcon = new Icon("icons/on.ico"); 
-    private static Icon offIcon = new Icon("icons/off.ico"); 
+    private static Icon onIcon = new Icon("resources/icons/on.ico"); 
+    private static Icon offIcon = new Icon("resources/icons/off.ico"); 
 
     public VpnManagerTrayIcon ()
     {

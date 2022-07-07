@@ -1,0 +1,3 @@
+vpn_expected_address = "x.x.x.x" # The public ip address when routing through VPN
+vpn_net_device_name = "VpnDevice" # The name of the VPN's network device
+routes_to_change = ["0.0.0.0/1", "128.0.0.0/1"] # Network ranges to override
