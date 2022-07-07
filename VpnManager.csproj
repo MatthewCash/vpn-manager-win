@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net48</TargetFramework>
+        <TargetFramework>net6.0-windows</TargetFramework>
+        <UseWindowsForms>true</UseWindowsForms>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <OutputType>Exe</OutputType>
@@ -15,6 +16,11 @@
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="System.Windows.Forms" />
+        <PackageReference Include="Tomlyn" Version="0.15.0" />
     </ItemGroup>
+    <ItemGroup>
+        <Content Include="resources\*.*">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup> 
 </Project>

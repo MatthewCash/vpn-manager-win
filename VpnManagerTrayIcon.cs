@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -15,13 +16,15 @@ public class VpnManagerTrayIcon : ApplicationContext
 
         trayIcon.Icon = offIcon;
         trayIcon.Visible = true;
-        trayIcon.ContextMenu = new ContextMenu(new MenuItem[] {
-            new MenuItem("Enable Routing", EnableRouting),
-            new MenuItem("Disable Routing", DisableRouting),
-            new MenuItem("Exit", Exit)
-        });
-
         trayIcon.MouseClick += new MouseEventHandler(OnTrayIconClick);
+
+        var contextMenu = new ContextMenuStrip();
+
+        trayIcon.ContextMenuStrip = contextMenu;
+
+        contextMenu.Items.Add(new ToolStripMenuItem("Enable Routing", null, EnableRouting));
+        contextMenu.Items.Add(new ToolStripMenuItem("Disable Routing", null, DisableRouting));
+        contextMenu.Items.Add(new ToolStripMenuItem("Exit", null, Exit));
     }
 
     void EnableRouting(object sender, EventArgs e) {
