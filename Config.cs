@@ -20,7 +20,7 @@ static class Config {
 
     static void CreateConfig(String configFilePath) {
         Directory.CreateDirectory(Directory.GetParent(configFilePath).FullName);
-        File.Copy("resources/config.toml", configFilePath);
+        File.Copy(@"resources\config.toml", configFilePath);
     }
 
     static String ReadConfigFile(String configFilePath) {
