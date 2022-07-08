@@ -17,6 +17,7 @@ static class VpnRouter {
             EnableRouting();
         }
     }
+
     public static async void EnableRouting() 
     {
         Console.WriteLine("Starting VPN Routing");
@@ -45,6 +46,7 @@ static class VpnRouter {
 
         Console.WriteLine("VPN Routing Successful");
     }
+    
     public static async void DisableRouting() 
     {
         Console.WriteLine("Stopping VPN Routing");
