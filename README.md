@@ -21,6 +21,8 @@ netsh.exe interface ipv4 {add/delete} route 128.0.0.0/1 VpnDevice 0.0.0.0
 
 ## Errors
 
+**Run as Administrator** otherwise routing will fail
+
 If the config is incorrectly formatted or missing entries, the program will crash. In the future I will add more meaningful error messages for invalid configs.
 
 ### Routing Errors
