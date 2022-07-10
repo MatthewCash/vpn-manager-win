@@ -9,18 +9,19 @@ public class VpnManagerTrayIcon : ApplicationContext
 {
     private static NotifyIcon trayIcon;
 
-    private static Icon onIcon; 
-    private static Icon offIcon; 
+    private static Icon offIcon;
+    private static Icon whiteIcon; // Loading
+    private static Icon greenIcon; // Success
+    private static Icon redIcon;  // IP Address Mismatch
 
     public VpnManagerTrayIcon ()
     {
         Assembly assembly = Assembly.GetExecutingAssembly();
 
-        Stream onIconStream = assembly.GetManifestResourceStream("VpnManager.resources.icons.on.ico");
-        Stream offIconStream = assembly.GetManifestResourceStream("VpnManager.resources.icons.off.ico");
-
-        onIcon = new Icon(onIconStream);
-        offIcon = new Icon(offIconStream);
+        offIcon = new Icon(assembly.GetManifestResourceStream("VpnManager.resources.icons.off.ico"));
+        whiteIcon = new Icon(assembly.GetManifestResourceStream("VpnManager.resources.icons.white.ico"));
+        greenIcon = new Icon(assembly.GetManifestResourceStream("VpnManager.resources.icons.green.ico"));
+        redIcon = new Icon(assembly.GetManifestResourceStream("VpnManager.resources.icons.red.ico"));
 
         trayIcon = new NotifyIcon();
 
@@ -59,7 +60,20 @@ public class VpnManagerTrayIcon : ApplicationContext
         VpnRouter.ToggleRouting();
     }
 
-    public static void SetTrayIconIcon(Boolean currentlyRouted) {
-        trayIcon.Icon = currentlyRouted ? onIcon : offIcon;
+    public enum TrayIconColor {
+        Off,
+        White,
+        Red,
+        Green,
+    }
+
+    public static void SetTrayIconColor(TrayIconColor iconColor) {
+        trayIcon.Icon = iconColor switch {
+            TrayIconColor.Off => offIcon,
+            TrayIconColor.White => whiteIcon,
+            TrayIconColor.Green => greenIcon,
+            TrayIconColor.Red => redIcon,
+            _ => offIcon,
+        };
     }
 }

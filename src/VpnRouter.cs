@@ -19,6 +19,7 @@ static class VpnRouter {
 
     public static async void EnableRouting() {
         Console.WriteLine("Starting VPN Routing");
+        VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.White);
 
         IPAddress dest = IPAddress.Parse((String) Config.GetConfig()["route_to_change"]);
         IPAddress mask = IPAddress.Parse((String) Config.GetConfig()["route_mask"]);
@@ -39,16 +40,19 @@ static class VpnRouter {
         if (!correctIp) {
             Console.WriteLine("VPN Routing Unsuccessful");
             MessageBox.Show("VPN Routing Unsuccessful, new public IP address is incorrect!", "VPN Routing Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.Red);
+        } else {
+            VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.Green);
         }
 
         currentlyRouted = true;
-        VpnManagerTrayIcon.SetTrayIconIcon(true);
 
         Console.WriteLine("VPN Routing Successful");
     }
     
     public static async void DisableRouting() {
         Console.WriteLine("Stopping VPN Routing");
+        VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.White);
 
         IPAddress dest = IPAddress.Parse((String) Config.GetConfig()["route_to_change"]);
         IPAddress mask = IPAddress.Parse((String) Config.GetConfig()["route_mask"]);
@@ -69,10 +73,12 @@ static class VpnRouter {
         if (!correctIp) {
             Console.WriteLine("VPN Un-Routing Unsuccessful");
             MessageBox.Show("VPN Un-Routing Unsuccessful, public IP address remains changed!", "VPN Routing Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.Red);
+        } else {
+            VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.Off);
         }
 
         currentlyRouted = false;
-        VpnManagerTrayIcon.SetTrayIconIcon(false);
         
         Console.WriteLine("VPN Un-Routing Successful");
     }

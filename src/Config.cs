@@ -13,7 +13,7 @@ static class Config {
 
     static String GetConfigPath() {
         String appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        string configFilePath = Path.Combine(appDataPath, "VpnManager", "config.toml");
+        String configFilePath = Path.Combine(appDataPath, "VpnManager", "config.toml");
 
         return configFilePath;
     }
