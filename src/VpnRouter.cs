@@ -4,29 +4,29 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Linq;
 using Tomlyn.Model;
+using System.Net;
 
 static class VpnRouter {
     private static Boolean currentlyRouted = false;
 
-    public static void ToggleRouting() 
-    {
-        if (currentlyRouted)
-        {
+    public static void ToggleRouting() {
+        if (currentlyRouted) {
             DisableRouting();
         } else {
             EnableRouting();
         }
     }
 
-    public static async void EnableRouting() 
-    {
+    public static async void EnableRouting() {
         Console.WriteLine("Starting VPN Routing");
 
-        TomlArray routes = (TomlArray) Config.GetConfig()["routes_to_change"];
+        IPAddress dest = IPAddress.Parse((String) Config.GetConfig()["route_to_change"]);
+        IPAddress mask = IPAddress.Parse((String) Config.GetConfig()["route_mask"]);
+        IPAddress nextHop = IPAddress.Parse((String) Config.GetConfig()["vpn_next_hop"]);
+        uint metric = Convert.ToUInt32((Int64) Config.GetConfig()["route_metric"]);
+        uint ifIndex = Convert.ToUInt32((Int64) Config.GetConfig()["vpn_if_index"]);
 
-        Boolean success = (await Task.WhenAll(
-            routes.Select(route => ModifyRoute((String) route, true))
-        )).All(x => x);
+        Boolean success = RoutingManager.AddRoute(dest, mask, nextHop, ifIndex, metric);
 
         if (!success) {
             Console.WriteLine("VPN Routing Unsuccessful");
@@ -34,7 +34,7 @@ static class VpnRouter {
             return;
         }
 
-        Boolean correctIp = await IpAddress.CheckIpAddress((String) Config.GetConfig()["vpn_expected_address"]);
+        Boolean correctIp = await CurrentIpAddress.CheckIpAddress((String) Config.GetConfig()["vpn_expected_address"]);
 
         if (!correctIp) {
             Console.WriteLine("VPN Routing Unsuccessful");
@@ -47,15 +47,16 @@ static class VpnRouter {
         Console.WriteLine("VPN Routing Successful");
     }
     
-    public static async void DisableRouting() 
-    {
+    public static async void DisableRouting() {
         Console.WriteLine("Stopping VPN Routing");
 
-        TomlArray routes = (TomlArray) Config.GetConfig()["routes_to_change"];
+        IPAddress dest = IPAddress.Parse((String) Config.GetConfig()["route_to_change"]);
+        IPAddress mask = IPAddress.Parse((String) Config.GetConfig()["route_mask"]);
+        IPAddress nextHop = IPAddress.Parse((String) Config.GetConfig()["vpn_next_hop"]);
+        uint metric = Convert.ToUInt32((Int64) Config.GetConfig()["route_metric"]);
+        uint ifIndex = Convert.ToUInt32((Int64) Config.GetConfig()["vpn_if_index"]);
 
-        Boolean success = (await Task.WhenAll(
-            routes.Select(route => ModifyRoute((String) route, false))
-        )).All(x => x);
+        Boolean success = RoutingManager.DeleteRoute(dest, mask, nextHop, ifIndex, metric);
 
         if (!success) {
             Console.WriteLine("VPN Un-Routing Unsuccessful");
@@ -63,7 +64,7 @@ static class VpnRouter {
             return;
         }
 
-        Boolean correctIp = !await IpAddress.CheckIpAddress((String) Config.GetConfig()["vpn_expected_address"]);
+        Boolean correctIp = !await CurrentIpAddress.CheckIpAddress((String) Config.GetConfig()["vpn_expected_address"]);
 
         if (!correctIp) {
             Console.WriteLine("VPN Un-Routing Unsuccessful");
@@ -74,25 +75,5 @@ static class VpnRouter {
         VpnManagerTrayIcon.SetTrayIconIcon(false);
         
         Console.WriteLine("VPN Un-Routing Successful");
-    }
-
-    static async Task<Boolean> ModifyRoute(String ip, Boolean add = true) {
-        String netDeviceName = (String) Config.GetConfig()["vpn_net_device_name"];
-        String action = add ? "add" : "delete";
-
-        Process netshProcess = new Process();
-
-        netshProcess.StartInfo.UseShellExecute = false;
-        netshProcess.StartInfo.CreateNoWindow = true;
-        netshProcess.StartInfo.FileName = "netsh.exe";
-        netshProcess.StartInfo.Arguments = $"interface ipv4 {action} route {ip} {netDeviceName} 0.0.0.0";
-
-        Console.WriteLine($"netsh.exe: interface ipv4 {action} route {ip} {netDeviceName} 0.0.0.0");
-
-        netshProcess.Start();
-
-        await netshProcess.WaitForExitAsync();
-
-        return netshProcess.ExitCode == 0;
     }
 }
