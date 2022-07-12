@@ -17,13 +17,11 @@ static class VpnRouter {
         Console.WriteLine("Starting VPN Routing");
         VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.White);
 
-        IPAddress dest = IPAddress.Parse((String) Config.GetConfig()["route_to_change"]);
-        IPAddress mask = IPAddress.Parse((String) Config.GetConfig()["route_mask"]);
-        IPAddress nextHop = IPAddress.Parse((String) Config.GetConfig()["vpn_next_hop"]);
-        uint metric = Convert.ToUInt32((Int64) Config.GetConfig()["route_metric"]);
-        uint ifIndex = Convert.ToUInt32((Int64) Config.GetConfig()["vpn_if_index"]);
+        IPAddress dest = IPAddress.Parse(Config.GetConfig().routeToChange);
+        IPAddress mask = IPAddress.Parse(Config.GetConfig().routeMask);
+        IPAddress nextHop = IPAddress.Parse(Config.GetConfig().nextHop);
 
-        Boolean success = RoutingManager.AddRoute(dest, mask, nextHop, ifIndex, metric);
+        Boolean success = RoutingManager.AddRoute(dest, mask, nextHop, Config.GetConfig().ifIndex, Config.GetConfig().routeMetric);
 
         if (!success) {
             Console.WriteLine("VPN Routing Unsuccessful");
@@ -31,7 +29,7 @@ static class VpnRouter {
             return;
         }
 
-        Boolean correctIp = await CurrentIpAddress.CheckIpAddress((String) Config.GetConfig()["vpn_expected_address"]);
+        Boolean correctIp = await CurrentIpAddress.CheckIpAddress(Config.GetConfig().expectedAddress);
 
         if (!correctIp) {
             Console.WriteLine("VPN Routing Unsuccessful");
@@ -50,13 +48,11 @@ static class VpnRouter {
         Console.WriteLine("Stopping VPN Routing");
         VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.White);
 
-        IPAddress dest = IPAddress.Parse((String) Config.GetConfig()["route_to_change"]);
-        IPAddress mask = IPAddress.Parse((String) Config.GetConfig()["route_mask"]);
-        IPAddress nextHop = IPAddress.Parse((String) Config.GetConfig()["vpn_next_hop"]);
-        uint metric = Convert.ToUInt32((Int64) Config.GetConfig()["route_metric"]);
-        uint ifIndex = Convert.ToUInt32((Int64) Config.GetConfig()["vpn_if_index"]);
+        IPAddress dest = IPAddress.Parse(Config.GetConfig().routeToChange);
+        IPAddress mask = IPAddress.Parse(Config.GetConfig().routeMask);
+        IPAddress nextHop = IPAddress.Parse(Config.GetConfig().nextHop);
 
-        Boolean success = RoutingManager.DeleteRoute(dest, mask, nextHop, ifIndex, metric);
+        Boolean success = RoutingManager.DeleteRoute(dest, mask, nextHop, Config.GetConfig().ifIndex, Config.GetConfig().routeMetric);
 
         if (!success) {
             Console.WriteLine("VPN Un-Routing Unsuccessful");
@@ -64,7 +60,7 @@ static class VpnRouter {
             return;
         }
 
-        Boolean correctIp = !await CurrentIpAddress.CheckIpAddress((String) Config.GetConfig()["vpn_expected_address"]);
+        Boolean correctIp = !await CurrentIpAddress.CheckIpAddress(Config.GetConfig().expectedAddress);
 
         if (!correctIp) {
             Console.WriteLine("VPN Un-Routing Unsuccessful");

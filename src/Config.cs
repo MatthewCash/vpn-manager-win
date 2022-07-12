@@ -1,12 +1,30 @@
 using System;
 using System.IO;
 using Tomlyn;
-using Tomlyn.Model;
+using System.Runtime.Serialization;
 
-static class Config {
-    static TomlTable config;
+class Config {
+    [DataMember(Name = "vpn_expected_address")]
+    public String expectedAddress { get; set; }
 
-    public static TomlTable GetConfig() {
+    [DataMember(Name = "vpn_if_index")]
+    public uint ifIndex { get; set; }
+
+    [DataMember(Name = "vpn_next_hop")]
+    public String nextHop { get; set; }
+
+    [DataMember(Name = "route_to_change")]
+    public String routeToChange { get; set; }
+
+    [DataMember(Name = "route_mask")]
+    public String routeMask { get; set; }
+
+    [DataMember(Name = "route_metric")]
+    public uint routeMetric { get; set; }
+
+    static Config config;
+
+    public static Config GetConfig() {
         return config;
     }
 
@@ -29,8 +47,8 @@ static class Config {
         return data;
     }
 
-    static TomlTable ParseConfigData(String data) {
-        return Toml.ToModel(data);
+    static Config ParseConfigData(String data) {
+        return Toml.ToModel<Config>(data);
     }
 
     public static void LoadConfig() {
@@ -39,7 +57,7 @@ static class Config {
         if (!File.Exists(configFilePath)) CreateConfig(configFilePath);
 
         String configData = ReadConfigFile(configFilePath);
-        TomlTable config = ParseConfigData(configData);
+        Config config = ParseConfigData(configData);
 
         Config.config = config;
     }
