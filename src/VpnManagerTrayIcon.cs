@@ -3,14 +3,14 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Reflection;
 
-public class VpnManagerTrayIcon : ApplicationContext
+class VpnManagerTrayIcon : ApplicationContext
 {
-    private static NotifyIcon trayIcon;
+    static NotifyIcon trayIcon;
 
-    private static Icon offIcon;
-    private static Icon whiteIcon; // Loading
-    private static Icon greenIcon; // Success
-    private static Icon redIcon;  // IP Address Mismatch
+    static Icon offIcon;
+    static Icon whiteIcon; // Loading
+    static Icon greenIcon; // Success
+    static Icon redIcon;  // IP Address Mismatch
 
     public VpnManagerTrayIcon ()
     {

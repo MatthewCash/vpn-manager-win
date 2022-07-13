@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using System.Net;
 
 static class VpnRouter {
-    private static Boolean currentlyRouted = false;
+    static Boolean currentlyRouted = false;
 
     public static void ToggleRouting() {
         if (currentlyRouted) {

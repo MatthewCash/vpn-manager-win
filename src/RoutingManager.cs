@@ -3,7 +3,7 @@ using System.Net;
 using System.Runtime.InteropServices;
 
 static class RoutingManager {
-    public struct Route {
+    struct Route {
         public uint dwForwardDest;
         public uint dwForwardMask;
         public uint dwForwardPolicy;
@@ -21,10 +21,10 @@ static class RoutingManager {
     };
     
     [DllImport("iphlpapi", CharSet = CharSet.Auto)]
-    public extern static int CreateIpForwardEntry(ref Route route);
+    static extern int CreateIpForwardEntry(ref Route route);
 
     [DllImport("iphlpapi", CharSet = CharSet.Auto)]
-    public extern static int DeleteIpForwardEntry(ref Route route);
+    static extern int DeleteIpForwardEntry(ref Route route);
 
     public static Boolean AddRoute(IPAddress dest, IPAddress mask, IPAddress nextHop, uint ifIndex, uint metric) {
         return ModifyRoute(dest, mask, nextHop, ifIndex, metric, true);
