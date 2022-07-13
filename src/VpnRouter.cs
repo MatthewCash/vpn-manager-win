@@ -24,6 +24,7 @@ static class VpnRouter {
         Boolean success = RoutingManager.AddRoute(dest, mask, nextHop, Config.GetConfig().ifIndex, Config.GetConfig().routeMetric);
 
         if (!success) {
+            VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.Off);
             Console.WriteLine("VPN Routing Unsuccessful");
             MessageBox.Show("VPN Routing Unsuccessful, failed to apply routing changes!", "VPN Routing Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return;
@@ -32,9 +33,9 @@ static class VpnRouter {
         Boolean correctIp = await CurrentIpAddress.CheckIpAddress(Config.GetConfig().expectedAddress);
 
         if (!correctIp) {
+            VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.Red);
             Console.WriteLine("VPN Routing Unsuccessful");
             MessageBox.Show("VPN Routing Unsuccessful, new public IP address is incorrect!", "VPN Routing Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.Red);
         } else {
             VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.Green);
         }
@@ -55,6 +56,7 @@ static class VpnRouter {
         Boolean success = RoutingManager.DeleteRoute(dest, mask, nextHop, Config.GetConfig().ifIndex, Config.GetConfig().routeMetric);
 
         if (!success) {
+            VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.Off);
             Console.WriteLine("VPN Un-Routing Unsuccessful");
             MessageBox.Show("VPN Un-Routing Unsuccessful, failed to revert routing changes!", "VPN Routing Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return;
@@ -63,9 +65,9 @@ static class VpnRouter {
         Boolean correctIp = !await CurrentIpAddress.CheckIpAddress(Config.GetConfig().expectedAddress);
 
         if (!correctIp) {
+            VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.Red);
             Console.WriteLine("VPN Un-Routing Unsuccessful");
             MessageBox.Show("VPN Un-Routing Unsuccessful, public IP address remains changed!", "VPN Routing Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.Red);
         } else {
             VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.Off);
         }
