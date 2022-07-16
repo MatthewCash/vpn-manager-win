@@ -3,8 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Reflection;
 
-class VpnManagerTrayIcon : ApplicationContext
-{
+class VpnManagerTrayIcon : ApplicationContext {
     static NotifyIcon trayIcon;
 
     static Icon offIcon;
@@ -12,8 +11,7 @@ class VpnManagerTrayIcon : ApplicationContext
     static Icon greenIcon; // Success
     static Icon redIcon;  // IP Address Mismatch
 
-    public VpnManagerTrayIcon ()
-    {
+    public VpnManagerTrayIcon() {
         Assembly assembly = Assembly.GetExecutingAssembly();
 
         offIcon = new Icon(assembly.GetManifestResourceStream("VpnManager.resources.icons.off.ico"));
@@ -44,15 +42,13 @@ class VpnManagerTrayIcon : ApplicationContext
         VpnRouter.DisableRouting();
     }
 
-    void Exit(object sender, EventArgs e)
-    {
+    void Exit(object sender, EventArgs e) {
         trayIcon.Visible = false;
 
         Application.Exit();
     }
 
-    void OnTrayIconClick(object sender, MouseEventArgs e)
-    {
+    void OnTrayIconClick(object sender, MouseEventArgs e) {
         if (e.Button != MouseButtons.Left) return;
 
         VpnRouter.ToggleRouting();
