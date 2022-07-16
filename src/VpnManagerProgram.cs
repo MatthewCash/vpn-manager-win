@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace VpnManager {
     static class Program {
@@ -15,6 +16,8 @@ namespace VpnManager {
             Console.WriteLine("Starting Tray Service");
             Application.Run(new VpnManagerTrayIcon());
             Console.WriteLine("Tray Service Exited");
+
+            ToastNotificationManagerCompat.Uninstall();
         }
     }
 }

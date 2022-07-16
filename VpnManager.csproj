@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net6.0-windows</TargetFramework>
+        <TargetFramework>net6.0-windows10.0.17763.0</TargetFramework>
         <UseWindowsForms>true</UseWindowsForms>
+        <ApplicationIcon>resources/icons/off.ico</ApplicationIcon>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <OutputType>Exe</OutputType>
@@ -16,6 +17,7 @@
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     </PropertyGroup>
     <ItemGroup>
+        <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.2" />
         <PackageReference Include="Tomlyn" Version="0.15.0" />
     </ItemGroup>
     <ItemGroup>
