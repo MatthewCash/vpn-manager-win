@@ -19,8 +19,11 @@ class Config {
     [DataMember(Name = "route_mask")]
     public String routeMask { get; set; }
 
-    [DataMember(Name = "route_metric")]
-    public uint routeMetric { get; set; }
+    [DataMember(Name = "route_metric_off")]
+    public uint routeMetricOff { get; set; }
+
+    [DataMember(Name = "route_metric_on")]
+    public uint routeMetricOn { get; set; }
 
     static Config config;
 

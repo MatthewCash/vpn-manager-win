@@ -12,11 +12,13 @@ vpn_if_index = 50 # The index of the VPN's network device
 vpn_next_hop = "10.0.0.5" # IP address for route's next hop
 route_to_change = "0.0.0.0" # IP Address of route
 route_mask = "0.0.0.0" # Network Mask for route
-route_metric = 10 # Cost of using route, should be lower than all others
+route_metric_off = 100 # Cost of using route when VPN routing is off, should be higher than all others
+route_metric_on = 10 # Cost of using route when VPN routing is on, should be lower than all others
 ```
 
 `route_to_change` and `route_mask` should be set to `"0.0.0.0"` to route all IP traffic through the VPN
-`route_metric` should be lower than your default gateway, `10` should be low enough
+`route_metric_off` should be higher than your default gateway, `100` should be high enough
+`route_metric_on` should be lower than your default gateway, `10` should be low enough
 
 ## Errors
 

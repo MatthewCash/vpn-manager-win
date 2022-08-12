@@ -22,7 +22,8 @@ static class VpnRouter {
         IPAddress mask = IPAddress.Parse(Config.GetConfig().routeMask);
         IPAddress nextHop = IPAddress.Parse(Config.GetConfig().nextHop);
 
-        Boolean success = RoutingManager.AddRoute(dest, mask, nextHop, Config.GetConfig().ifIndex, Config.GetConfig().routeMetric);
+        RoutingManager.DeleteRoute(dest, mask, nextHop, Config.GetConfig().ifIndex, Config.GetConfig().routeMetricOff);
+        Boolean success = RoutingManager.AddRoute(dest, mask, nextHop, Config.GetConfig().ifIndex, Config.GetConfig().routeMetricOn);
 
         if (!success) {
             VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.Off);
@@ -60,7 +61,8 @@ static class VpnRouter {
         IPAddress mask = IPAddress.Parse(Config.GetConfig().routeMask);
         IPAddress nextHop = IPAddress.Parse(Config.GetConfig().nextHop);
 
-        Boolean success = RoutingManager.DeleteRoute(dest, mask, nextHop, Config.GetConfig().ifIndex, Config.GetConfig().routeMetric);
+        RoutingManager.DeleteRoute(dest, mask, nextHop, Config.GetConfig().ifIndex, Config.GetConfig().routeMetricOn);
+        Boolean success = RoutingManager.AddRoute(dest, mask, nextHop, Config.GetConfig().ifIndex, Config.GetConfig().routeMetricOff);
 
         if (!success) {
             VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.Off);
