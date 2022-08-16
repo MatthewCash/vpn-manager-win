@@ -31,6 +31,7 @@ class VpnManagerTrayIcon : ApplicationContext {
 
         contextMenu.Items.Add(new ToolStripMenuItem("Enable Routing", null, EnableRouting));
         contextMenu.Items.Add(new ToolStripMenuItem("Disable Routing", null, DisableRouting));
+        contextMenu.Items.Add(new ToolStripMenuItem("Reload Config", null, ReloadConfig));
         contextMenu.Items.Add(new ToolStripMenuItem("Exit", null, Exit));
     }
 
@@ -40,6 +41,10 @@ class VpnManagerTrayIcon : ApplicationContext {
 
     void DisableRouting(object sender, EventArgs e) {
         VpnRouter.DisableRouting();
+    }
+
+    void ReloadConfig(object sender, EventArgs e) {
+        Config.LoadConfig();
     }
 
     void Exit(object sender, EventArgs e) {
