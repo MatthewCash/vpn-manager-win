@@ -1,5 +1,4 @@
 using System;
-using System.Windows.Forms;
 using System.Net;
 using Microsoft.Toolkit.Uwp.Notifications;
 
@@ -21,9 +20,10 @@ static class VpnRouter {
         IPAddress dest = IPAddress.Parse(Config.GetConfig().routeToChange);
         IPAddress mask = IPAddress.Parse(Config.GetConfig().routeMask);
         IPAddress nextHop = IPAddress.Parse(Config.GetConfig().nextHop);
+        uint ifIndex = RoutingManager.GetInterfaceIndex(Config.GetConfig().ifName);
 
-        RoutingManager.DeleteRoute(dest, mask, nextHop, Config.GetConfig().ifIndex, Config.GetConfig().routeMetricOff);
-        Boolean success = RoutingManager.AddRoute(dest, mask, nextHop, Config.GetConfig().ifIndex, Config.GetConfig().routeMetricOn);
+        RoutingManager.DeleteRoute(dest, mask, nextHop, ifIndex, Config.GetConfig().routeMetricOff);
+        Boolean success = RoutingManager.AddRoute(dest, mask, nextHop, ifIndex, Config.GetConfig().routeMetricOn);
 
         if (!success) {
             VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.Off);
@@ -60,9 +60,10 @@ static class VpnRouter {
         IPAddress dest = IPAddress.Parse(Config.GetConfig().routeToChange);
         IPAddress mask = IPAddress.Parse(Config.GetConfig().routeMask);
         IPAddress nextHop = IPAddress.Parse(Config.GetConfig().nextHop);
+        uint ifIndex = RoutingManager.GetInterfaceIndex(Config.GetConfig().ifName);
 
-        RoutingManager.DeleteRoute(dest, mask, nextHop, Config.GetConfig().ifIndex, Config.GetConfig().routeMetricOn);
-        Boolean success = RoutingManager.AddRoute(dest, mask, nextHop, Config.GetConfig().ifIndex, Config.GetConfig().routeMetricOff);
+        RoutingManager.DeleteRoute(dest, mask, nextHop, ifIndex, Config.GetConfig().routeMetricOn);
+        Boolean success = RoutingManager.AddRoute(dest, mask, nextHop, ifIndex, Config.GetConfig().routeMetricOff);
 
         if (!success) {
             VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.Off);

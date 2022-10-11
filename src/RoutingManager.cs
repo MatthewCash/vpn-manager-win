@@ -1,6 +1,8 @@
 using System;
 using System.Net;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Net.NetworkInformation;
 
 static class RoutingManager {
     struct Route {
@@ -25,6 +27,13 @@ static class RoutingManager {
 
     [DllImport("iphlpapi", CharSet = CharSet.Auto)]
     static extern int DeleteIpForwardEntry(ref Route route);
+
+    public static uint GetInterfaceIndex(String name) {
+        var interfaces = NetworkInterface.GetAllNetworkInterfaces();
+
+        return (uint) interfaces.Single(iface => iface.Name == name)
+            .GetIPProperties().GetIPv4Properties().Index;
+    }
 
     public static Boolean AddRoute(IPAddress dest, IPAddress mask, IPAddress nextHop, uint ifIndex, uint metric) {
         return ModifyRoute(dest, mask, nextHop, ifIndex, metric, true);

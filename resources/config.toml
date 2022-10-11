@@ -1,5 +1,5 @@
 vpn_expected_address = "x.x.x.x" # The public ip address when routing through VPN
-vpn_if_index = 50 # The index of the VPN's network device
+vpn_if_name = "VpnInterface" # The name of the VPN's network device
 vpn_next_hop = "10.0.0.5" # IP address for route's next hop
 route_to_change = "0.0.0.0" # IP Address of route
 route_mask = "0.0.0.0" # Network Mask for route

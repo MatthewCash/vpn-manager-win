@@ -7,8 +7,8 @@ class Config {
     [DataMember(Name = "vpn_expected_address")]
     public String expectedAddress { get; set; }
 
-    [DataMember(Name = "vpn_if_index")]
-    public uint ifIndex { get; set; }
+    [DataMember(Name = "vpn_if_name")]
+    public String ifName { get; set; }
 
     [DataMember(Name = "vpn_next_hop")]
     public String nextHop { get; set; }
