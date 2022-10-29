@@ -16,6 +16,8 @@ static class CurrentIpAddress {
     }
 
     static async Task<String> GetIpAddress() {
-        return await new HttpClient().GetStringAsync("https://ifconfig.me");
+        var http = new HttpClient();
+        http.DefaultRequestHeaders.Add("Host", "ifconfig.me");
+        return await http.GetStringAsync("http://34.160.111.145");
     }
 }
