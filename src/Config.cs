@@ -25,6 +25,18 @@ class Config {
     [DataMember(Name = "route_metric_on")]
     public uint routeMetricOn { get; set; }
 
+    [DataMember(Name = "up_command")]
+    public String upCommand { get; set; }
+
+    [DataMember(Name = "up_args")]
+    public String upArgs { get; set; }
+
+    [DataMember(Name = "down_command")]
+    public String downCommand { get; set; }
+
+    [DataMember(Name = "down_args")]
+    public String downArgs { get; set; }
+
     static Config config;
 
     public static Config GetConfig() {
