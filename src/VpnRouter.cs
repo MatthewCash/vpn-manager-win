@@ -107,6 +107,16 @@ static class VpnRouter {
         Console.WriteLine("VPN Un-Routing Successful");
     }
 
+    public static void SetRouted(bool routed) {
+        currentlyRouted = routed;
+
+        if (routed) {
+            VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.Green);
+        } else {
+            VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.Off);
+        }
+    }
+
     static async Task<bool> runCommand(String command, String args) {
         Process cmdProcess = new Process();
 

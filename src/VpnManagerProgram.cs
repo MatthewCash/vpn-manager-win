@@ -13,6 +13,8 @@ namespace VpnManager {
             Config.LoadConfig();
             Console.WriteLine("Config loaded!");
 
+            CurrentIpAddress.StartIpAddressPolling();
+
             Console.WriteLine("Starting Tray Service");
             Application.Run(new VpnManagerTrayIcon());
             Console.WriteLine("Tray Service Exited");
