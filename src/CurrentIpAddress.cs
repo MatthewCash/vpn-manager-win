@@ -33,7 +33,9 @@ static class CurrentIpAddress {
     }
 
     static async Task PollIpAddress() {
-        await UpdateCheckHost();
+        try {
+            await UpdateCheckHost();
+        } catch (Exception) { } // The DNS lookup can fail
         bool routed = await CheckIpAddress(Config.GetConfig().expectedAddress);
 
         VpnRouter.SetRouted(routed);
