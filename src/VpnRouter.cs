@@ -35,7 +35,7 @@ static class VpnRouter {
 
         if (!success) {
             VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.Off);
-            Console.WriteLine("VPN Routing Unsuccessful");
+            Console.Error.WriteLine("VPN Routing Unsuccessful");
             new ToastContentBuilder()
                 .AddText("VPN Routing Unsuccessful")
                 .AddText("Failed to apply routing changes!")
@@ -47,7 +47,7 @@ static class VpnRouter {
 
         if (!correctIp) {
             VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.Red);
-            Console.WriteLine("VPN Routing Unsuccessful");
+            Console.Error.WriteLine("Public IP address is incorrect!");
             new ToastContentBuilder()
                 .AddText("VPN Routing Unsuccessful")
                 .AddText("New public IP address is incorrect!")
@@ -81,7 +81,7 @@ static class VpnRouter {
 
         if (!success) {
             VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.Off);
-            Console.WriteLine("VPN Un-Routing Unsuccessful");
+            Console.Error.WriteLine("VPN Un-Routing Unsuccessful");
             new ToastContentBuilder()
                 .AddText("VPN Routing Unsuccessful")
                 .AddText("Failed to revert routing changes!")
@@ -93,7 +93,7 @@ static class VpnRouter {
 
         if (!correctIp) {
             VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.Red);
-            Console.WriteLine("VPN Un-Routing Unsuccessful");
+            Console.Error.WriteLine("Public IP address remains changed!");
             new ToastContentBuilder()
                 .AddText("VPN Routing Unsuccessful")
                 .AddText("Public IP address remains changed!")
