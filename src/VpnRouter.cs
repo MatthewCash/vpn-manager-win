@@ -60,7 +60,7 @@ static class VpnRouter {
 
         Console.WriteLine("VPN Routing Successful");
     }
-    
+
     public static async void DisableRouting() {
         Console.WriteLine("Stopping VPN Routing");
         VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.White);
@@ -103,7 +103,7 @@ static class VpnRouter {
         }
 
         currentlyRouted = false;
-        
+
         Console.WriteLine("VPN Un-Routing Successful");
     }
 

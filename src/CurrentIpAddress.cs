@@ -10,10 +10,11 @@ static class CurrentIpAddress {
         String currentAddress = String.Empty;
 
         // Getting the IP address may fail if the network is down, retry a few times with a delay
-        for (int i = 0; i < 20; i++) try {
-            currentAddress = await GetIpAddress();
-            break;
-        } catch (Exception) { await Task.Delay(50); };
+        for (int i = 0; i < 20; i++)
+            try {
+                currentAddress = await GetIpAddress();
+                break;
+            } catch (Exception) { await Task.Delay(50); };
 
         return tryAddress == currentAddress;
     }

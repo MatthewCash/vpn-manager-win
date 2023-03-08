@@ -21,7 +21,7 @@ static class RoutingManager {
         public uint dwForwardMetric4;
         public uint dwForwardMetric5;
     };
-    
+
     [DllImport("iphlpapi", CharSet = CharSet.Auto)]
     static extern int CreateIpForwardEntry(ref Route route);
 
