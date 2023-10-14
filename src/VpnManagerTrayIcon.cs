@@ -1,7 +1,7 @@
 using System;
 using System.Drawing;
-using System.Windows.Forms;
 using System.Reflection;
+using System.Windows.Forms;
 
 class VpnManagerTrayIcon : ApplicationContext {
     static NotifyIcon trayIcon;
@@ -14,18 +14,18 @@ class VpnManagerTrayIcon : ApplicationContext {
     public VpnManagerTrayIcon() {
         Assembly assembly = Assembly.GetExecutingAssembly();
 
-        offIcon = new Icon(assembly.GetManifestResourceStream("VpnManager.resources.icons.off.ico"));
-        whiteIcon = new Icon(assembly.GetManifestResourceStream("VpnManager.resources.icons.white.ico"));
-        greenIcon = new Icon(assembly.GetManifestResourceStream("VpnManager.resources.icons.green.ico"));
-        redIcon = new Icon(assembly.GetManifestResourceStream("VpnManager.resources.icons.red.ico"));
+        offIcon = new(assembly.GetManifestResourceStream("VpnManager.resources.icons.off.ico"));
+        whiteIcon = new(assembly.GetManifestResourceStream("VpnManager.resources.icons.white.ico"));
+        greenIcon = new(assembly.GetManifestResourceStream("VpnManager.resources.icons.green.ico"));
+        redIcon = new(assembly.GetManifestResourceStream("VpnManager.resources.icons.red.ico"));
 
-        trayIcon = new NotifyIcon();
-
-        trayIcon.Icon = offIcon;
-        trayIcon.Visible = true;
+        trayIcon = new() {
+            Icon = offIcon,
+            Visible = true
+        };
         trayIcon.MouseClick += new MouseEventHandler(OnTrayIconClick);
 
-        var contextMenu = new ContextMenuStrip();
+        ContextMenuStrip contextMenu = new();
 
         trayIcon.ContextMenuStrip = contextMenu;
 

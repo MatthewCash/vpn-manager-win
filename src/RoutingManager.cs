@@ -1,8 +1,8 @@
 using System;
-using System.Net;
 using System.Linq;
-using System.Runtime.InteropServices;
+using System.Net;
 using System.Net.NetworkInformation;
+using System.Runtime.InteropServices;
 
 static class RoutingManager {
     struct Route {
@@ -28,23 +28,23 @@ static class RoutingManager {
     [DllImport("iphlpapi", CharSet = CharSet.Auto)]
     static extern int DeleteIpForwardEntry(ref Route route);
 
-    public static uint GetInterfaceIndex(String name) {
+    public static uint GetInterfaceIndex(string name) {
         var interfaces = NetworkInterface.GetAllNetworkInterfaces();
 
         return (uint) interfaces.Single(iface => iface.Name == name)
             .GetIPProperties().GetIPv4Properties().Index;
     }
 
-    public static Boolean AddRoute(IPAddress dest, IPAddress mask, IPAddress nextHop, uint ifIndex, uint metric) {
+    public static bool AddRoute(IPAddress dest, IPAddress mask, IPAddress nextHop, uint ifIndex, uint metric) {
         return ModifyRoute(dest, mask, nextHop, ifIndex, metric, true);
     }
 
-    public static Boolean DeleteRoute(IPAddress dest, IPAddress mask, IPAddress nextHop, uint ifIndex, uint metric) {
+    public static bool DeleteRoute(IPAddress dest, IPAddress mask, IPAddress nextHop, uint ifIndex, uint metric) {
         return ModifyRoute(dest, mask, nextHop, ifIndex, metric, false);
     }
 
-    static Boolean ModifyRoute(IPAddress dest, IPAddress mask, IPAddress nextHop, uint ifIndex, uint metric, Boolean add = true) {
-        Route route = new Route {
+    static bool ModifyRoute(IPAddress dest, IPAddress mask, IPAddress nextHop, uint ifIndex, uint metric, bool add = true) {
+        Route route = new() {
             dwForwardDest = BitConverter.ToUInt32(dest.GetAddressBytes(), 0),
             dwForwardMask = BitConverter.ToUInt32(mask.GetAddressBytes(), 0),
             dwForwardNextHop = BitConverter.ToUInt32(nextHop.GetAddressBytes(), 0),

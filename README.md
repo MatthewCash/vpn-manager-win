@@ -2,7 +2,7 @@
 
 I have a persistent WireGuard VPN between my computer and an internet server. This applications allows traffic to be routed through the VPN by adjusting the Windows routing table.
 
-## Config 
+## Config
 
 On first run a config file should be created at `%APPDATA%\VpnManager\config.toml`
 
@@ -38,4 +38,4 @@ Routing has been changed and traffic should be routed through the VPN, but the p
 
 > PN Un-Routing Unsuccessful, public IP address remains changed!
 
-Routing has been reverted and traffic should *no longer* be routed through the VPN, but the public IP address *is still* matching the one specified in the config. You can check your current IP address with `curl ifconfig.me`
+Routing has been reverted and traffic should _no longer_ be routed through the VPN, but the public IP address _is still_ matching the one specified in the config. You can check your current IP address with `curl ifconfig.me`

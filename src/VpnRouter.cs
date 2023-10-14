@@ -1,11 +1,11 @@
 using System;
-using System.Net;
 using System.Diagnostics;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Notifications;
 
 static class VpnRouter {
-    static Boolean currentlyRouted = false;
+    static bool currentlyRouted = false;
 
     public static void ToggleRouting() {
         if (currentlyRouted) {
@@ -21,16 +21,16 @@ static class VpnRouter {
 
         bool success;
 
-        if (Config.GetConfig().upCommand == null) {
-            IPAddress dest = IPAddress.Parse(Config.GetConfig().routeToChange);
-            IPAddress mask = IPAddress.Parse(Config.GetConfig().routeMask);
-            IPAddress nextHop = IPAddress.Parse(Config.GetConfig().nextHop);
-            uint ifIndex = RoutingManager.GetInterfaceIndex(Config.GetConfig().ifName);
+        if (Config.GetConfig().UpCommand == null) {
+            IPAddress dest = IPAddress.Parse(Config.GetConfig().RouteToChange);
+            IPAddress mask = IPAddress.Parse(Config.GetConfig().RouteMask);
+            IPAddress nextHop = IPAddress.Parse(Config.GetConfig().NextHop);
+            uint ifIndex = RoutingManager.GetInterfaceIndex(Config.GetConfig().IfName);
 
-            RoutingManager.DeleteRoute(dest, mask, nextHop, ifIndex, Config.GetConfig().routeMetricOff);
-            success = RoutingManager.AddRoute(dest, mask, nextHop, ifIndex, Config.GetConfig().routeMetricOn);
+            RoutingManager.DeleteRoute(dest, mask, nextHop, ifIndex, Config.GetConfig().RouteMetricOff);
+            success = RoutingManager.AddRoute(dest, mask, nextHop, ifIndex, Config.GetConfig().RouteMetricOn);
         } else {
-            success = await runCommand(Config.GetConfig().upCommand, Config.GetConfig().upArgs);
+            success = await RunCommand(Config.GetConfig().UpCommand, Config.GetConfig().UpArgs);
         }
 
         if (!success) {
@@ -43,7 +43,7 @@ static class VpnRouter {
             return;
         }
 
-        bool correctIp = await CurrentIpAddress.CheckIpAddress(Config.GetConfig().expectedAddress);
+        bool correctIp = await CurrentIpAddress.CheckIpAddress(Config.GetConfig().ExpectedAddress);
 
         if (!correctIp) {
             VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.Red);
@@ -67,16 +67,16 @@ static class VpnRouter {
 
         bool success;
 
-        if (Config.GetConfig().downCommand == null) {
-            IPAddress dest = IPAddress.Parse(Config.GetConfig().routeToChange);
-            IPAddress mask = IPAddress.Parse(Config.GetConfig().routeMask);
-            IPAddress nextHop = IPAddress.Parse(Config.GetConfig().nextHop);
-            uint ifIndex = RoutingManager.GetInterfaceIndex(Config.GetConfig().ifName);
+        if (Config.GetConfig().DownCommand == null) {
+            IPAddress dest = IPAddress.Parse(Config.GetConfig().RouteToChange);
+            IPAddress mask = IPAddress.Parse(Config.GetConfig().RouteMask);
+            IPAddress nextHop = IPAddress.Parse(Config.GetConfig().NextHop);
+            uint ifIndex = RoutingManager.GetInterfaceIndex(Config.GetConfig().IfName);
 
-            RoutingManager.DeleteRoute(dest, mask, nextHop, ifIndex, Config.GetConfig().routeMetricOn);
-            success = RoutingManager.AddRoute(dest, mask, nextHop, ifIndex, Config.GetConfig().routeMetricOff);
+            RoutingManager.DeleteRoute(dest, mask, nextHop, ifIndex, Config.GetConfig().RouteMetricOn);
+            success = RoutingManager.AddRoute(dest, mask, nextHop, ifIndex, Config.GetConfig().RouteMetricOff);
         } else {
-            success = await runCommand(Config.GetConfig().downCommand, Config.GetConfig().downArgs);
+            success = await RunCommand(Config.GetConfig().DownCommand, Config.GetConfig().DownArgs);
         }
 
         if (!success) {
@@ -89,7 +89,7 @@ static class VpnRouter {
             return;
         }
 
-        bool correctIp = !await CurrentIpAddress.CheckIpAddress(Config.GetConfig().expectedAddress);
+        bool correctIp = !await CurrentIpAddress.CheckIpAddress(Config.GetConfig().ExpectedAddress);
 
         if (!correctIp) {
             VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.Red);
@@ -117,8 +117,8 @@ static class VpnRouter {
         }
     }
 
-    static async Task<bool> runCommand(String command, String args) {
-        Process cmdProcess = new Process();
+    static async Task<bool> RunCommand(string command, string args) {
+        Process cmdProcess = new();
 
         cmdProcess.StartInfo.UseShellExecute = false;
         cmdProcess.StartInfo.CreateNoWindow = true;

@@ -1,41 +1,41 @@
 using System;
 using System.IO;
-using Tomlyn;
 using System.Runtime.Serialization;
+using Tomlyn;
 
 class Config {
     [DataMember(Name = "vpn_expected_address")]
-    public String expectedAddress { get; set; }
+    public string ExpectedAddress { get; set; }
 
     [DataMember(Name = "vpn_if_name")]
-    public String ifName { get; set; }
+    public string IfName { get; set; }
 
     [DataMember(Name = "vpn_next_hop")]
-    public String nextHop { get; set; }
+    public string NextHop { get; set; }
 
     [DataMember(Name = "route_to_change")]
-    public String routeToChange { get; set; }
+    public string RouteToChange { get; set; }
 
     [DataMember(Name = "route_mask")]
-    public String routeMask { get; set; }
+    public string RouteMask { get; set; }
 
     [DataMember(Name = "route_metric_off")]
-    public uint routeMetricOff { get; set; }
+    public uint RouteMetricOff { get; set; }
 
     [DataMember(Name = "route_metric_on")]
-    public uint routeMetricOn { get; set; }
+    public uint RouteMetricOn { get; set; }
 
     [DataMember(Name = "up_command")]
-    public String upCommand { get; set; }
+    public string UpCommand { get; set; }
 
     [DataMember(Name = "up_args")]
-    public String upArgs { get; set; }
+    public string UpArgs { get; set; }
 
     [DataMember(Name = "down_command")]
-    public String downCommand { get; set; }
+    public string DownCommand { get; set; }
 
     [DataMember(Name = "down_args")]
-    public String downArgs { get; set; }
+    public string DownArgs { get; set; }
 
     static Config config;
 
@@ -43,35 +43,35 @@ class Config {
         return config;
     }
 
-    static String GetConfigPath() {
-        String appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        String configFilePath = Path.Combine(appDataPath, "VpnManager", "config.toml");
+    static string GetConfigPath() {
+        string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        string configFilePath = Path.Combine(appDataPath, "VpnManager", "config.toml");
 
         return configFilePath;
     }
 
-    static void CreateConfig(String configFilePath) {
+    static void CreateConfig(string configFilePath) {
         Directory.CreateDirectory(Directory.GetParent(configFilePath).FullName);
         File.Copy(@"resources\config.toml", configFilePath);
     }
 
-    static String ReadConfigFile(String configFilePath) {
-        String[] lines = File.ReadAllLines(configFilePath);
-        String data = String.Join('\n', lines);
+    static string ReadConfigFile(string configFilePath) {
+        string[] lines = File.ReadAllLines(configFilePath);
+        string data = string.Join('\n', lines);
 
         return data;
     }
 
-    static Config ParseConfigData(String data) {
+    static Config ParseConfigData(string data) {
         return Toml.ToModel<Config>(data);
     }
 
     public static void LoadConfig() {
-        String configFilePath = GetConfigPath();
+        string configFilePath = GetConfigPath();
 
         if (!File.Exists(configFilePath)) CreateConfig(configFilePath);
 
-        String configData = ReadConfigFile(configFilePath);
+        string configData = ReadConfigFile(configFilePath);
         Config config = ParseConfigData(configData);
 
         Config.config = config;
