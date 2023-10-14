@@ -21,7 +21,7 @@ static class CurrentIpAddress {
 
     static async Task<string> GetIpAddress() {
         var http = new HttpClient();
-        http.DefaultRequestHeaders.Add("Host", "ifconfig.me");
+        http.DefaultRequestHeaders.Add("Host", Config.GetConfig().GetIpUrlHost);
 
         if (string.IsNullOrEmpty(cachedCheckHost)) await UpdateCheckHost();
 
@@ -29,7 +29,7 @@ static class CurrentIpAddress {
     }
 
     static async Task UpdateCheckHost() {
-        var ips = await Dns.GetHostAddressesAsync("ifconfig.me");
+        var ips = await Dns.GetHostAddressesAsync(Config.GetConfig().GetIpUrlHost);
         cachedCheckHost = ips[0].ToString();
     }
 

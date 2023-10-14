@@ -37,6 +37,9 @@ class Config {
     [DataMember(Name = "down_args")]
     public string DownArgs { get; set; }
 
+    [DataMember(Name = "get_ip_url_host")]
+    public string GetIpUrlHost { get; set; }
+
     static Config config;
 
     public static Config GetConfig() {
