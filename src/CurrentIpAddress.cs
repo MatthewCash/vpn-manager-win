@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 static class CurrentIpAddress {
     static string cachedCheckHost = string.Empty;
 
-    public static async Task<bool> CheckIpAddress(string tryAddress) {
+    public static async Task<string?> CheckIpAddress(string tryAddress) {
         string currentAddress = string.Empty;
 
         // Getting the IP address may fail if the network is down, retry a few times with a delay
@@ -16,7 +16,10 @@ static class CurrentIpAddress {
                 break;
             } catch (Exception) { await Task.Delay(50); };
 
-        return tryAddress == currentAddress;
+        if (tryAddress == currentAddress)
+            return null;
+        else
+            return currentAddress;
     }
 
     static async Task<string> GetIpAddress() {
@@ -25,7 +28,7 @@ static class CurrentIpAddress {
 
         if (string.IsNullOrEmpty(cachedCheckHost)) await UpdateCheckHost();
 
-        return await http.GetStringAsync("http://" + cachedCheckHost);
+        return await http.GetStringAsync($"http://{cachedCheckHost}/ip");
     }
 
     static async Task UpdateCheckHost() {
@@ -37,9 +40,9 @@ static class CurrentIpAddress {
         try {
             await UpdateCheckHost();
         } catch (Exception) { } // The DNS lookup can fail
-        bool routed = await CheckIpAddress(Config.GetConfig().ExpectedAddress);
+        string routed = await CheckIpAddress(Config.GetConfig().ExpectedAddress);
 
-        VpnRouter.SetRouted(routed);
+        VpnRouter.SetRouted(routed is null);
     }
 
     public static async void StartIpAddressPolling() {

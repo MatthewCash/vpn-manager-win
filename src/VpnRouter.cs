@@ -43,11 +43,11 @@ static class VpnRouter {
             return;
         }
 
-        bool correctIp = await CurrentIpAddress.CheckIpAddress(Config.GetConfig().ExpectedAddress);
+        string incorrectIp = await CurrentIpAddress.CheckIpAddress(Config.GetConfig().ExpectedAddress);
 
-        if (!correctIp) {
+        if (incorrectIp is not null) {
             VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.Red);
-            Console.Error.WriteLine("Public IP address is incorrect!");
+            Console.Error.WriteLine("Public IP address is incorrect: " + incorrectIp);
             new ToastContentBuilder()
                 .AddText("VPN Routing Unsuccessful")
                 .AddText("New public IP address is incorrect!")
@@ -89,11 +89,11 @@ static class VpnRouter {
             return;
         }
 
-        bool correctIp = !await CurrentIpAddress.CheckIpAddress(Config.GetConfig().ExpectedAddress);
+        string incorrectIp = await CurrentIpAddress.CheckIpAddress(Config.GetConfig().ExpectedAddress);
 
-        if (!correctIp) {
+        if (incorrectIp is null) {
             VpnManagerTrayIcon.SetTrayIconColor(VpnManagerTrayIcon.TrayIconColor.Red);
-            Console.Error.WriteLine("Public IP address remains changed!");
+            Console.Error.WriteLine("Public IP address remains changed: " + incorrectIp);
             new ToastContentBuilder()
                 .AddText("VPN Routing Unsuccessful")
                 .AddText("Public IP address remains changed!")
