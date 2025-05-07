@@ -9,7 +9,7 @@ namespace VpnManager {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            Console.WriteLine("Loading consfig...");
+            Console.WriteLine("Loading config...");
             Config.LoadConfig();
             Console.WriteLine("Config loaded!");
 
